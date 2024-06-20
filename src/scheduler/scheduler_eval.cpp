@@ -2,6 +2,7 @@
 #define MIN_DURATION 100000 // might need to change this - emperical
 
 using namespace std;
+using namespace std::chrono;
 
 // globals
 void* klib;
@@ -663,8 +664,15 @@ extern "C" {
 	void* schedule(Scheduler* scheduler, int num_clients, bool profile_mode, int iter, bool warmup, int warmup_iters, bool reef, bool seq, int reef_depth, int hp_limit, int update_start) {
 
 		DEBUG_PRINT("entered sched func!\n");
+		// Scheduler start time
+		auto start = system_clock::now();
+		auto start_c = system_clock::to_time_t(start);
 		if (profile_mode)
 			scheduler->busy_wait_profile(num_clients, iter, warmup, warmup_iters, reef, seq, reef_depth, hp_limit, update_start);
+		auto end = system_clock::now();
+		auto end_c = system_clock::to_time_t(end);
+		auto duration = double(duration_cast<nanoseconds>(end - start).count()) / 1000.0;
+		DEBUG_PRINT("Scheduler time cost: %lf", duration);
 		DEBUG_PRINT("exited sched func!\n");
 		return NULL;
 	}
