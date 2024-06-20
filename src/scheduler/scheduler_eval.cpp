@@ -672,7 +672,8 @@ extern "C" {
 		auto end = system_clock::now();
 		auto end_c = system_clock::to_time_t(end);
 		auto duration = double(duration_cast<nanoseconds>(end - start).count()) / 1000.0;
-		DEBUG_PRINT("Scheduler time cost: %lf", duration);
+		cout << "Scheduler time cost:" << duration << endl;
+		// DEBUG_PRINT("Scheduler time cost: %lf", duration);
 		DEBUG_PRINT("exited sched func!\n");
 		return NULL;
 	}
